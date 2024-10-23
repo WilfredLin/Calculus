@@ -1,0 +1,41 @@
+import numpy as np
+
+class TaylorSeries:
+    def __init__(self, function, derivative_order):
+        self.function = function
+        self.derivative_order = derivative_order
+
+    def calculate_derivative(self, x, order):
+        """Calculate the n-th derivative of the function at point x."""
+        h = 1e-5  # A small step size for numerical differentiation
+        if order == 0:
+            return self.function(x)
+        elif order == 1:
+            return (self.function(x + h) - self.function(x - h)) / (2 * h)
+        else:
+            return (self.calculate_derivative(x + h, order - 1) - self.calculate_derivative(x - h, order - 1)) / (2 * h)
+
+    def taylor_expansion(self, x, point, terms):
+        """Calculate the Taylor series expansion of the function at the given point."""
+        expansion = 0
+        for n in range(terms):
+            derivative = self.calculate_derivative(point, n)
+            expansion += (derivative / np.math.factorial(n)) * ((x - point) ** n)
+        return expansion
+
+# Example usage
+if __name__ == "__main__":
+    # Define the function for which we want to calculate the Taylor series
+    def func(x):
+        return np.sin(x)
+
+    # Create a Taylor series instance for the sine function
+    taylor_series = TaylorSeries(func, derivative_order=5)
+
+    # Calculate the Taylor series expansion around the point 0 (Maclaurin series)
+    x_value = np.pi / 4  # 45 degrees
+    expansion_terms = 5
+    result = taylor_series.taylor_expansion(x_value, 0, expansion_terms)
+
+    # Display the result
+    print(f"Taylor series expansion of sin(x) at x = {x_value}: {result}")
