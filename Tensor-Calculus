@@ -1,0 +1,56 @@
+import numpy as np
+
+class Tensor:
+    def __init__(self, data):
+        self.data = np.array(data)
+
+    def __add__(self, other):
+        """Add two tensors."""
+        return Tensor(self.data + other.data)
+
+    def __sub__(self, other):
+        """Subtract two tensors."""
+        return Tensor(self.data - other.data)
+
+    def __mul__(self, scalar):
+        """Multiply tensor by a scalar."""
+        return Tensor(self.data * scalar)
+
+    def __truediv__(self, scalar):
+        """Divide tensor by a scalar."""
+        return Tensor(self.data / scalar)
+
+    def transpose(self):
+        """Transpose the tensor (for 2D tensors)."""
+        return Tensor(self.data.T)
+
+    def dot(self, other):
+        """Compute the dot product of two tensors."""
+        return Tensor(np.dot(self.data, other.data))
+
+    def shape(self):
+        """Return the shape of the tensor."""
+        return self.data.shape
+
+    def __repr__(self):
+        return f"Tensor(shape={self.shape()}, data=\n{self.data})"
+
+# Example usage
+if __name__ == "__main__":
+    # Create two 2D tensors (matrices)
+    tensor_a = Tensor([[1, 2], [3, 4]])
+    tensor_b = Tensor([[5, 6], [7, 8]])
+
+    # Perform tensor operations
+    tensor_sum = tensor_a + tensor_b
+    tensor_diff = tensor_a - tensor_b
+    tensor_product = tensor_a.dot(tensor_b)
+    tensor_transpose = tensor_a.transpose()
+
+    # Display the results
+    print("Tensor A:\n", tensor_a)
+    print("Tensor B:\n", tensor_b)
+    print("Sum of Tensors:\n", tensor_sum)
+    print("Difference of Tensors:\n", tensor_diff)
+    print("Dot Product of Tensors:\n", tensor_product)
+    print("Transpose of Tensor A:\n", tensor_transpose)
